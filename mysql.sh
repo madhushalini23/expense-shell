@@ -33,7 +33,7 @@ echo "script started executing at: $TIMESTAMP"
 
 CHECK_ROOT
 
-dnf install mysql-server -y
+dnf install mysql-server -y &>>$LOG_FILE_NAME
 VALIDATE $? "installing mysql server"
 
 systemctl enable mysqld &>>$LOG_FILE_NAME
