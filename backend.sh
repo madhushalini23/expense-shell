@@ -42,16 +42,10 @@ VALIDATE $? "enabling nodejs 20 module"
 dnf install nodejs -y &>>$LOG_FILE_NAME
 VALIDATE $? "installing nodejs"
 
-id expense &>>$LOG_FILE_NAME
-if [ $? -ne 0 ]
-then
-    useradd expense &>>$LOG_FILE_NAME
-    VALIDATE $? "creating expense user"
-else
-    echo -e "expense user already exists ...$Y SKIPPING $N"
-fi  
+useradd expense &>>$LOG_FILE_NAME
+VALIDATE $? "creating expense user"
 
-mkdir -p /app &>>$LOG_FILE_NAME
+mkdir /app &>>$LOG_FILE_NAME
 VALIDATE $? "creating /app directory"
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
@@ -67,7 +61,7 @@ VALIDATE $? "installing backend dependencies"
 
 cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOG_FILE_NAME
 
-# prepare systemd service file
+# prepare mysql schema
 
 dnf install mysql -y &>>$LOG_FILE_NAME
 VALIDATE $? "installing mysql client"
