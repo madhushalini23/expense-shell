@@ -28,6 +28,8 @@ CHECK_ROOT(){
         exit 1
     fi
 }
+mkdir -p $LOGS_FOLDER &>>$LOG_FILE_NAME
+VALIDATE $? "creating logs directory"
 
 echo "script started executing at: $TIMESTAMP" &>>$LOG_FILE_NAME
 
