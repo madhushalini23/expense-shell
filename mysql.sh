@@ -29,7 +29,7 @@ CHECK_ROOT(){
     fi
 }
 
-echo "script started executing at: $TIMESTAMP" 
+echo "script started executing at: $TIMESTAMP" &>>$LOG_FILE_NAME
 
 CHECK_ROOT
 
@@ -42,17 +42,7 @@ VALIDATE $? "enabling mysql server"
 systemctl start mysqld &>>$LOG_FILE_NAME
 VALIDATE $? "starting mysql server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 -e 'show databases;' &>>$LOG_FILE_NAME
-
-if [ $? -ne 0 ]
-then
-    echo "mysql root password notsetup" &>>$LOG_FILE_NAME
-    mysql_secure_installation --set-root--password ExpenseApp@1
-    VALIDATE $? "setting root password"
-else
-    echo -e "mysql root password already setup ...$Y SKIPPING $N"
-fi
-
-
+mysql_secure_installation --set-root-pass ExpenseApp@1 
+VALIDATE $? "setting mysql root password"
 
 
